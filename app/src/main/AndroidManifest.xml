@@ -17,7 +17,7 @@
             android:exported="false"
         />
         <activity
-            android:name=".views.registro_view.ObjetivoView"
+            android:name=".controllers.registro_controller.ObjetivoController"
             android:exported="false"
         />
         <activity

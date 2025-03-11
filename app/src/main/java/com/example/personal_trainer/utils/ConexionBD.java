@@ -18,6 +18,14 @@ public class ConexionBD extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NOMBRE = "nombre";
     public static final String COLUMN_URLIMAGEN = "url_imagen";
+    public static ConexionBD instance;
+
+    public static synchronized ConexionBD getInstance(Context context) {
+        if (instance == null) {
+            instance = new ConexionBD(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     public ConexionBD(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,17 +58,20 @@ public class ConexionBD extends SQLiteOpenHelper {
     private String getCreateTableEjercicio(){
         return "CREATE TABLE IF NOT EXISTS " + TABLE_EJERCICIO + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NOMBRE + "TEXT NOT NULL, " +
-                COLUMN_URLIMAGEN + "TEXT);";
+                COLUMN_NOMBRE + " TEXT NOT NULL, " +
+                COLUMN_URLIMAGEN + " TEXT);";
 
     }
 
     private String getCreateTableObjetivo(){
         return "CREATE TABLE IF NOT EXISTS " + TABLE_OBJETIVO + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NOMBRE + "TEXT NOT NULL);";
+                COLUMN_NOMBRE + " TEXT NOT NULL);";
     }
     private String getCreateTableRutina(){
-       return "";
+        return "CREATE TABLE IF NOT EXISTS " + TABLE_RUTINA + " (" +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NOMBRE + " TEXT NOT NULL);";
     }
+
 }

@@ -25,7 +25,6 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"/>
 
-    <!-- Botones para guardar, actualizar y eliminar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,7 +62,7 @@
 
     <!-- Lista de ítems -->
     <ListView
-        android:id="@+id/lv_items_objetivo"
+        android:id="@+id/listView_objetivos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerHeight="1dp"

@@ -2,13 +2,17 @@ package com.example.personal_trainer;
 
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.personal_trainer.controllers.registro_controller.ObjetivoController;
+
 import com.example.personal_trainer.views.fitness_view.EjercicioView;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,20 +40,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.btn_gestionar_ejercicio) {
-
             Intent i = new Intent(context, EjercicioView.class);
             Bundle bolsa = new Bundle();
             bolsa.putInt("id", 0);
             i.putExtras(bolsa);
             startActivity(i);
-        }/* else if (id == R.id.btn_gestionar_objetivo) {
-
-            Intent i = new Intent(context, PObjetivo.class);
+        } else if (id == R.id.btn_gestionar_objetivo) {
+            Intent i = new Intent(context, ObjetivoController.class);
             Bundle bolsa = new Bundle();
             bolsa.putInt("id", 0);
             i.putExtras(bolsa);
             startActivity(i);
-        } else if (id == R.id.btn_gestionar_cliente) {
+        }/* else if (id == R.id.btn_gestionar_cliente) {
 
             Intent i = new Intent(context, PCliente.class);
             Bundle bolsa = new Bundle();

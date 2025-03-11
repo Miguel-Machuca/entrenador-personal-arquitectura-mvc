@@ -1,8 +1,9 @@
 package com.example.personal_trainer.models.registro_model;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 
 import com.example.personal_trainer.utils.ConexionBD;
 
@@ -66,10 +67,10 @@ public class ObjetivoModel {
         }
     }
 
-    public boolean insertar(ObjetivoModel objetivo) {
+    public boolean insertar(String nombre) {
         return executeTransaction(() -> {
            ContentValues values = new ContentValues();
-           values.put(ConexionBD.COLUMN_NOMBRE, objetivo.getNombre());
+           values.put(ConexionBD.COLUMN_NOMBRE, nombre);
            database.insertOrThrow(ConexionBD.TABLE_OBJETIVO, null, values);
         });
     }
@@ -132,5 +133,19 @@ public class ObjetivoModel {
             }
         }
         return objetivo;
+    }
+
+    public void initBD(Context context){
+        SQLiteDatabase database = null;
+        try {
+            ConexionBD admin = new ConexionBD(context);
+            database = admin.getWritableDatabase();
+            this.setDatabase(database);
+        } catch (Exception e) {
+            System.err.println("Error al iniciar la base de datos: " + e.getMessage());
+            if (database != null && database.isOpen()) {
+                database.close(); // Cerrar la base de datos si ocurrió un error
+            }
+        }
     }
 }
