@@ -1,6 +1,7 @@
 package com.example.personal_trainer.models.fitness_model;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -30,57 +31,11 @@ public class EjercicioModel {
         this.urlImagen = urlImagen;
     }
 
-    public int getIdEjercicio() {
-        return idEjercicio;
-    }
-
-    public void setIdEjercicio(int idEjercicio) {
-        this.idEjercicio = idEjercicio;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getUrlImagen() {
-        return urlImagen;
-    }
-
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
-    }
-
-    public SQLiteDatabase getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(SQLiteDatabase database) {
-        this.database = database;
-    }
-
-    private boolean executeTransaction(Runnable operation) {
-        database.beginTransaction();
-        try {
-            operation.run();
-            database.setTransactionSuccessful();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            database.endTransaction();
-        }
-    }
-
-    public boolean insertar(EjercicioModel ejercicio) {
+    public boolean insertar(String nombre, String urlImagen) {
         return executeTransaction(() -> {
             ContentValues values = new ContentValues();
-            values.put(ConexionBD.COLUMN_NOMBRE, ejercicio.getNombre());
-            values.put(ConexionBD.COLUMN_URLIMAGEN, ejercicio.getUrlImagen());
+            values.put(ConexionBD.COLUMN_NOMBRE, nombre);
+            values.put(ConexionBD.COLUMN_URLIMAGEN, urlImagen);
             database.insertOrThrow(ConexionBD.TABLE_EJERCICIO, null, values);
         });
     }
@@ -149,4 +104,63 @@ public class EjercicioModel {
         return ejercicio;
     }
 
+    public int getIdEjercicio() {
+        return idEjercicio;
+    }
+
+    public void setIdEjercicio(int idEjercicio) {
+        this.idEjercicio = idEjercicio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(SQLiteDatabase database) {
+        this.database = database;
+    }
+
+    private boolean executeTransaction(Runnable operation) {
+        database.beginTransaction();
+        try {
+            operation.run();
+            database.setTransactionSuccessful();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            database.endTransaction();
+        }
+    }
+
+    public void initBD(Context context){
+        SQLiteDatabase database = null;
+        try {
+            ConexionBD admin = new ConexionBD(context);
+            database = admin.getWritableDatabase();
+            this.setDatabase(database);
+        } catch (Exception e) {
+            System.err.println("Error al iniciar la base de datos: " + e.getMessage());
+            if (database != null && database.isOpen()) {
+                database.close(); // Cerrar la base de datos si ocurrió un error
+            }
+        }
+    }
 }

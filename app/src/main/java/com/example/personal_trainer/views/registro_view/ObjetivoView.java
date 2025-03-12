@@ -7,19 +7,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.personal_trainer.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjetivoView extends AppCompatActivity{
+public class ObjetivoView {
 
     private int idObjetivo;
     private EditText txtNombreObjetivo;
     private ListView listViewObjetivos;
     private Button btnInsertar, btnModificar, btnBorrar;
     private Context context;
+
 
     public ObjetivoView(Context context, View rootView) {
         this.context = context;
@@ -29,21 +29,6 @@ public class ObjetivoView extends AppCompatActivity{
         btnModificar = rootView.findViewById(R.id.btn_modificar_objetivo);
         btnBorrar = rootView.findViewById(R.id.btn_borrar_objetivo);
         listViewObjetivos = rootView.findViewById(R.id.listView_objetivos);
-    }
-
-    public int getIdObjetivo(){
-        return idObjetivo;
-    }
-
-    public void setIdObjetivo(int idObjetivo) {
-        this.idObjetivo = idObjetivo;
-    }
-    public String getNombreObjetivo() {
-        return txtNombreObjetivo.getText().toString().trim();
-    }
-
-    public void setNombreObjetivo(String nombre) {
-        txtNombreObjetivo.setText(nombre);
     }
 
     public void setBtnInsertarListener(Runnable listener) {
@@ -65,6 +50,21 @@ public class ObjetivoView extends AppCompatActivity{
 
     public void setListViewObjetivosListener(ListView.OnItemClickListener listener) {
         listViewObjetivos.setOnItemClickListener(listener);
+    }
+
+    public int getIdObjetivo(){
+        return idObjetivo;
+    }
+
+    public void setIdObjetivo(int idObjetivo) {
+        this.idObjetivo = idObjetivo;
+    }
+    public String getNombreObjetivo() {
+        return txtNombreObjetivo.getText().toString().trim();
+    }
+
+    public void setNombreObjetivo(String nombre) {
+        txtNombreObjetivo.setText(nombre);
     }
 
     public void limpiarCampos(){

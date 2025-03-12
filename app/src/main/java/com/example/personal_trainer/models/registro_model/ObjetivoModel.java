@@ -29,49 +29,11 @@ public class ObjetivoModel {
         this.nombre = nombre;
     }
 
-    public int getIdObjetivo() {
-        return idObjetivo;
-    }
-
-    public void setIdObjetivo(int idObjetivo) {
-        this.idObjetivo = idObjetivo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public SQLiteDatabase getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(SQLiteDatabase database) {
-        this.database = database;
-    }
-
-    private boolean executeTransaction(Runnable operation) {
-        database.beginTransaction();
-        try {
-            operation.run();
-            database.setTransactionSuccessful();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            database.endTransaction();
-        }
-    }
-
     public boolean insertar(String nombre) {
         return executeTransaction(() -> {
-           ContentValues values = new ContentValues();
-           values.put(ConexionBD.COLUMN_NOMBRE, nombre);
-           database.insertOrThrow(ConexionBD.TABLE_OBJETIVO, null, values);
+            ContentValues values = new ContentValues();
+            values.put(ConexionBD.COLUMN_NOMBRE, nombre);
+            database.insertOrThrow(ConexionBD.TABLE_OBJETIVO, null, values);
         });
     }
 
@@ -119,7 +81,7 @@ public class ObjetivoModel {
         try {
             cursor = database.query(ConexionBD.TABLE_OBJETIVO,
                     new String[]{ConexionBD.COLUMN_ID, ConexionBD.COLUMN_NOMBRE},
-                            ConexionBD.COLUMN_ID + " = ?",
+                    ConexionBD.COLUMN_ID + " = ?",
                     new String[]{String.valueOf(idObjetivo)},
                     null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
@@ -133,6 +95,44 @@ public class ObjetivoModel {
             }
         }
         return objetivo;
+    }
+
+    public int getIdObjetivo() {
+        return idObjetivo;
+    }
+
+    public void setIdObjetivo(int idObjetivo) {
+        this.idObjetivo = idObjetivo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(SQLiteDatabase database) {
+        this.database = database;
+    }
+
+    private boolean executeTransaction(Runnable operation) {
+        database.beginTransaction();
+        try {
+            operation.run();
+            database.setTransactionSuccessful();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            database.endTransaction();
+        }
     }
 
     public void initBD(Context context){

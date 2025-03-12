@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Personaltrainer"
         tools:targetApi="31">
         <activity
-            android:name=".views.fitness_view.EjercicioView"
+            android:name=".controllers.fitness_controller.EjercicioController"
             android:exported="false"
         />
         <activity
