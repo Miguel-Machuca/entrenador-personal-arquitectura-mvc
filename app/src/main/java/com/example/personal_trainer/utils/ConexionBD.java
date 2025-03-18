@@ -18,8 +18,17 @@ public class ConexionBD extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "id";
     public static final String FK_ID_CLIENTE = "id_cliente";
     public static final String FK_ID_OBJETIVO = "id_objetivo";
+    public static final String FK_ID_RUTINA = "id_rutina";
+    public static final String FK_ID_EJERCICIO = "id_ejercicio";
     public static final String COLUMN_NOMBRE = "nombre";
     public static final String COLUMN_URLIMAGEN = "url_imagen";
+    public static final String COLUMN_APELLIDO = "apellido";
+    public static final String COLUMN_CELULAR = "celular";
+    public static final String COLUMN_DESCRIPCION = "descripcion";
+    public static final String COLUMN_CANTIDADSERIE = "cantidad_serie";
+    public static final String COLUMN_CANTIDADREPETICION = "cantidad_repeticion";
+    public static final String COLUMN_DURACIONREPOSO = "duracion_reposo";
+    public static final String COLUMN_FECHA = "fecha";
     public static ConexionBD instance;
 
     public static synchronized ConexionBD getInstance(Context context) {
@@ -88,7 +97,7 @@ public class ConexionBD extends SQLiteOpenHelper {
                 FK_ID_CLIENTE + " INTEGER NOT NULL, " +
                 FK_ID_OBJETIVO + " INTEGER NOT NULL, " +
                 COLUMN_DESCRIPCION + " TEXT, " +
-                "PRIMARY KEY (" + FK_ID_CLIENTE + ", " + FK_OBJETIVO + "), " +
+                "PRIMARY KEY (" + FK_ID_CLIENTE + ", " + FK_ID_OBJETIVO + "), " +
                 "FOREIGN KEY (" + FK_ID_CLIENTE + ") REFERENCES " + TABLE_CLIENTE + "(" + COLUMN_ID + "), " +
                 "FOREIGN KEY (" + FK_ID_OBJETIVO + ") REFERENCES " + TABLE_OBJETIVO + "(" + COLUMN_ID + "));";
     }
@@ -113,7 +122,7 @@ public class ConexionBD extends SQLiteOpenHelper {
 
     private String getCreateTableCronograma() {
         return "CREATE TABLE IF NOT EXISTS " + TABLE_CRONOGRAMA + "(" +
-                COLUMN_ID_CRONOGRAMA + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FECHA + " DATE, " +
                 FK_ID_CLIENTE + " INTEGER NOT NULL, " +
                 FK_ID_RUTINA + " INTEGER NOT NULL, " +

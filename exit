@@ -1,0 +1,29 @@
+[33mcommit f655c8c48325d483bcc120cb49bc51135cd1a8dd[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Miguel Angel Machuca Yavita <167807941+Miguel-Machuca@users.noreply.github.com>
+Date:   Tue Mar 18 08:52:56 2025 -0400
+
+    feat: actualizar la estructura de la base de datos y tablas iniciales
+
+[33mcommit 3941f6bcb4b0ca0862da70bf580dcdbfda447bdb[m
+Author: Miguel-Machuca <mmangeliguel@gmail.com>
+Date:   Wed Mar 12 18:38:30 2025 -0400
+
+    feat: agregar las funcionalidades de gestionar ejercicio
+
+[33mcommit 4171802a0d6880827f3eab085b1e5c098846ccc7[m
+Author: Miguel-Machuca <mmangeliguel@gmail.com>
+Date:   Tue Mar 11 10:43:30 2025 -0400
+
+    feat: agregar las funcionalidades de gestionar objetivo
+
+[33mcommit e9d2d585d448ab79cd13c40793787719f2f1166c[m
+Author: Miguel Angel Machuca Yavita <167807941+Miguel-Machuca@users.noreply.github.com>
+Date:   Tue Feb 25 19:48:03 2025 -0400
+
+    feat: agregar las clase registro_controller
+
+[33mcommit 1db88ffac43c029a99037e0b9ead567f8485ac50[m
+Author: Miguel-Machuca <mmangeliguel@gmail.com>
+Date:   Tue Feb 25 11:15:59 2025 -0400
+
+    chore: inicilizar el proyecto con la estructura básica
