@@ -97,6 +97,31 @@ public class ObjetivoModel {
         return objetivo;
     }
 
+    public ObjetivoModel buscarPorNombre(String nombre) {
+        ObjetivoModel objetivo = null;
+        Cursor cursor = null;
+
+        try {
+            String[] columns = {ConexionBD.COLUMN_ID, ConexionBD.COLUMN_NOMBRE};
+            String selection = ConexionBD.COLUMN_NOMBRE + " = ?";
+            String[] selectionArgs = {nombre};
+
+            cursor = database.query(ConexionBD.TABLE_OBJETIVO, columns, selection, selectionArgs, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_ID));
+                String nom = cursor.getString(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_NOMBRE));
+
+                objetivo = new ObjetivoModel(id, nom);
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return objetivo;
+    }
+
     public int getIdObjetivo() {
         return idObjetivo;
     }
@@ -144,7 +169,7 @@ public class ObjetivoModel {
         } catch (Exception e) {
             System.err.println("Error al iniciar la base de datos: " + e.getMessage());
             if (database != null && database.isOpen()) {
-                database.close(); // Cerrar la base de datos si ocurrió un error
+                database.close();
             }
         }
     }

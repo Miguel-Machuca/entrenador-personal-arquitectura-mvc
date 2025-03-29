@@ -16,10 +16,17 @@
             android:name=".controllers.fitness_controller.EjercicioController"
             android:exported="false"
         />
+
         <activity
             android:name=".controllers.registro_controller.ObjetivoController"
             android:exported="false"
         />
+
+        <activity
+            android:name=".controllers.registro_controller.ClienteController"
+            android:exported="false"
+        />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

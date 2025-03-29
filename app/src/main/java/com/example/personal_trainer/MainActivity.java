@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.personal_trainer.controllers.fitness_controller.EjercicioController;
+import com.example.personal_trainer.controllers.registro_controller.ClienteController;
 import com.example.personal_trainer.controllers.registro_controller.ObjetivoController;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -46,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.btn_gestionar_ejercicio) {
             i = new Intent(context, EjercicioController.class);
+
         } else if (id == R.id.btn_gestionar_objetivo) {
-
             i = new Intent(context, ObjetivoController.class);
-        } else if (id == R.id.btn_gestionar_cliente) {
 
-            // i = new Intent(context, PCliente.class);
-            return;
+        } else if (id == R.id.btn_gestionar_cliente) {
+            i = new Intent(context, ClienteController.class);
+
         } else if (id == R.id.btn_gestionar_rutina) {
 
             // i = new Intent(context, PRutina.class);
