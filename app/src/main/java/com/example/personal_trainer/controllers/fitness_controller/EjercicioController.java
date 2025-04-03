@@ -19,137 +19,156 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EjercicioController extends AppCompatActivity {
-    private EjercicioModel ejercicioModel;
     private EjercicioView ejercicioView;
+    private EjercicioModel ejercicioModel;
+    private ActivityResultLauncher<Intent> seleccionarImagenLauncher;
+    private Uri imagenSeleccionadaUri;
+    private int idEjercicioSeleccionado = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_vejercicio);
 
         ejercicioModel = new EjercicioModel();
         ejercicioModel.initBD(this);
 
-        setContentView(R.layout.activity_vejercicio);
         View rootView = findViewById(android.R.id.content);
-        ejercicioView = new EjercicioView(this, rootView, this);
+        ejercicioView = new EjercicioView(this, rootView);
 
-        ejercicioView.setBtnInsertarListener(this::insertarEjercicio);
-        ejercicioView.setBtnModificarListener(this::modificarEjercicio);
-        ejercicioView.setBtnBorrarListener(this::borrarEjercicio);
-        ejercicioView.setListViewEjerciciosListener(this::itemClickListView);
+        configurarSeleccionarImagenLauncher();
 
-        this.reiniciarActividad();
+        setupListeners();
+
+        cargarDatosIniciales();
     }
 
-    public void insertarEjercicio() {
-        try {
-            String nombre = ejercicioView.getNombreEjercicio();
-            if (nombre.isEmpty()) {
-                ejercicioView.mensaje("El nombre del ejercicio no puede estar vacío.");
-                return;
-            }
-
-            String urlImagen = ejercicioView.getUrlImagen();
-
-            boolean resultado = ejercicioModel.insertar(nombre, urlImagen);
-
-            if (resultado) {
-                ejercicioView.mensaje("Ejercicio insertado correctamente.");
-                this.reiniciarActividad();
-            } else {
-                ejercicioView.mensaje("Error al insertar el ejercicio.");
-            }
-        } catch (Exception e) {
-            ejercicioView.mensaje("Error: " + e.getMessage());
-        }
+    private void configurarSeleccionarImagenLauncher() {
+        seleccionarImagenLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        imagenSeleccionadaUri = result.getData().getData();
+                        ejercicioView.setImagenEjercicio(imagenSeleccionadaUri);
+                    }
+                }
+        );
     }
 
-    public void modificarEjercicio() {
-        try {
-            int idEjercicio = ejercicioView.getIdEjercicio();
-            String nombre = ejercicioView.getNombreEjercicio();
-            String urlImagen = ejercicioView.getUrlImagen();
+    private void setupListeners() {
+        ejercicioView.setBtnInsertarListener(v -> manejarInsercionEjercicio());
+        ejercicioView.setBtnModificarListener(v -> manejarModificacionEjercicio());
+        ejercicioView.setBtnBorrarListener(v -> manejarBorradoEjercicio());
+        ejercicioView.setBtnSubirImagenListener(v -> abrirSelectorImagenes());
 
-            if (nombre.isEmpty()) {
-                ejercicioView.mensaje("El nombre del objetivo no puede estar vacío.");
-                return;
-            }
-
-            boolean resultado = ejercicioModel.modificar(idEjercicio, nombre, urlImagen);
-
-            if (resultado) {
-                ejercicioView.mensaje("Objetivo modificado correctamente.");
-                this.reiniciarActividad();
-            } else {
-                ejercicioView.mensaje("Error al modificar el objetivo.");
-            }
-        } catch (Exception e) {
-            ejercicioView.mensaje("Error: " + e.getMessage());
-        }
+        ejercicioView.setListViewEjerciciosListener(this::manejarSeleccionEjercicio);
     }
 
-    public void borrarEjercicio() {
-        try {
-            int idEjercicio = ejercicioView.getIdEjercicio();
-
-            if (idEjercicio == -1) {
-                ejercicioView.mensaje("No hay ningún objetivo seleccionado.");
-                return;
-            }
-
-            boolean resultado = ejercicioModel.borrar(idEjercicio);
-
-            if (resultado) {
-                ejercicioView.mensaje("Objetivo borrado correctamente.");
-                this.reiniciarActividad();
-            } else {
-                ejercicioView.mensaje("Error al borrar el objetivo.");
-            }
-        } catch (Exception e) {
-            ejercicioView.mensaje("Error: " + e.getMessage());
-        }
-    }
-
-    public void consultarEjercicios() {
+    private void cargarEjercicios() {
         List<String> nombres = new ArrayList<>();
-        List<Integer> idEjercicios = new ArrayList<>();
+        List<EjercicioModel> ejercicios = ejercicioModel.consultar();
 
-        List<EjercicioModel> listaEjercicios = ejercicioModel.consultar();
-
-        for (EjercicioModel ejercicio : listaEjercicios) {
+        for (EjercicioModel ejercicio : ejercicios) {
             nombres.add(ejercicio.getNombre());
-            idEjercicios.add(ejercicio.getIdEjercicio());
         }
+
         ejercicioView.mostrarEjerciciosEnListView(nombres);
     }
 
-    private void itemClickListView(AdapterView<?> adapterView, View view, int position, long id) {
-        List<EjercicioModel> listaEjercicios = ejercicioModel.consultar();
-        int ejercicioIdSeleccionado = listaEjercicios.get(position).getIdEjercicio();
+    private void manejarInsercionEjercicio() {
+        String nombre = ejercicioView.getNombreEjercicio();
+        String urlImagen = (imagenSeleccionadaUri != null) ? imagenSeleccionadaUri.toString() : "";
 
-        EjercicioModel ejercicio = ejercicioModel.buscar(ejercicioIdSeleccionado);
+        if (validarDatosEjercicio(nombre)) {
+            boolean exito = ejercicioModel.insertar(nombre, urlImagen);
 
-        if (ejercicio != null) {
-            ejercicioView.setNombreEjercicio(ejercicio.getNombre());
-            ejercicioView.setIdEjercicio(ejercicio.getIdEjercicio());
-            establecerImagenEjercicio(ejercicio);
-            ejercicioView.btnModificarBtnBorrar();
-        } else {
-            ejercicioView.mensaje("Objetivo no encontrado.");
+            if (exito) {
+                ejercicioView.mostrarMensaje("Ejercicio insertado correctamente");
+                resetearUI();
+                cargarEjercicios();
+            } else {
+                ejercicioView.mostrarMensaje("Error al insertar ejercicio");
+            }
         }
     }
 
-    private void establecerImagenEjercicio(EjercicioModel ejercicio) {
-        if (ejercicio.getUrlImagen() == null || ejercicio.getUrlImagen().isEmpty()) {
-            Uri uriImagenPorDefecto = Uri.parse("android.resource://com.example.personal_trainer/" + R.drawable.sin_imagen);
-            ejercicioView.setUrlImagen(uriImagenPorDefecto.toString());
-        } else {
-            ejercicioView.setUrlImagen(ejercicio.getUrlImagen());
+    private void manejarModificacionEjercicio() {
+        if (idEjercicioSeleccionado == -1) {
+            ejercicioView.mostrarMensaje("No hay ejercicio seleccionado");
+            return;
+        }
+
+        String nombre = ejercicioView.getNombreEjercicio();
+        String urlImagen = (imagenSeleccionadaUri != null) ? imagenSeleccionadaUri.toString() : "";
+
+        if (validarDatosEjercicio(nombre)) {
+            boolean exito = ejercicioModel.modificar(idEjercicioSeleccionado, nombre, urlImagen);
+
+            if (exito) {
+                ejercicioView.mostrarMensaje("Ejercicio modificado correctamente");
+                resetearUI();
+                cargarEjercicios();
+            } else {
+                ejercicioView.mostrarMensaje("Error al modificar ejercicio");
+            }
         }
     }
 
-    private void reiniciarActividad() {
+    private void manejarBorradoEjercicio() {
+        if (idEjercicioSeleccionado == -1) {
+            ejercicioView.mostrarMensaje("No hay ejercicio seleccionado");
+            return;
+        }
+
+        boolean exito = ejercicioModel.borrar(idEjercicioSeleccionado);
+
+        if (exito) {
+            ejercicioView.mostrarMensaje("Ejercicio borrado correctamente");
+            resetearUI();
+            cargarEjercicios();
+        } else {
+            ejercicioView.mostrarMensaje("Error al borrar ejercicio");
+        }
+    }
+
+    private void manejarSeleccionEjercicio(AdapterView<?> parent, View view, int position, long id) {
+        List<EjercicioModel> ejercicios = ejercicioModel.consultar();
+        EjercicioModel ejercicio = ejercicios.get(position);
+        idEjercicioSeleccionado = ejercicio.getIdEjercicio();
+
+        ejercicioView.setNombreEjercicio(ejercicio.getNombre());
+        ejercicioView.habilitarModoEdicion(true);
+
+        if (ejercicio.getUrlImagen() != null && !ejercicio.getUrlImagen().isEmpty()) {
+            imagenSeleccionadaUri = Uri.parse(ejercicio.getUrlImagen());
+            ejercicioView.setImagenEjercicio(imagenSeleccionadaUri);
+        } else {
+            imagenSeleccionadaUri = null;
+            ejercicioView.setImagenEjercicio(null);
+        }
+    }
+
+    private void abrirSelectorImagenes() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        seleccionarImagenLauncher.launch(intent);
+    }
+
+    private boolean validarDatosEjercicio(String nombre) {
+        if (nombre.isEmpty()) {
+            ejercicioView.mostrarMensaje("El nombre del ejercicio no puede estar vacío");
+            return false;
+        }
+        return true;
+    }
+
+    private void resetearUI() {
         ejercicioView.limpiarCampos();
-        this.consultarEjercicios();
+        idEjercicioSeleccionado = -1;
+        imagenSeleccionadaUri = null;
+    }
+
+    private void cargarDatosIniciales() {
+        cargarEjercicios();
+        resetearUI();
     }
 }

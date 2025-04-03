@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.personal_trainer.controllers.control_controller.CronogramaController;
 import com.example.personal_trainer.controllers.fitness_controller.EjercicioController;
 import com.example.personal_trainer.controllers.fitness_controller.RutinaController;
 import com.example.personal_trainer.controllers.registro_controller.ClienteController;
@@ -59,8 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i = new Intent(context, RutinaController.class);
 
         } else if (id == R.id.btn_gestionar_cronograma) {
-
-            // i = new Intent(context, PCronograma.class);
+            //i = new Intent(context, CronogramaController.class);
             return;
         } else {
             return;
