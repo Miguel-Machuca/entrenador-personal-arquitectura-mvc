@@ -18,6 +18,11 @@
         />
 
         <activity
+            android:name=".controllers.fitness_controller.RutinaController"
+            android:exported="false"
+            />
+
+        <activity
             android:name=".controllers.registro_controller.ObjetivoController"
             android:exported="false"
         />

@@ -37,28 +37,6 @@ public class ClienteView {
         setupAdapters();
     }
 
-    private void initializeUI(View rootView) {
-        txtNombreCliente = rootView.findViewById(R.id.txt_nombre_cliente);
-        txtApellidoCliente = rootView.findViewById(R.id.txt_apellido_cliente);
-        txtCelular = rootView.findViewById(R.id.txt_celular_cliente);
-        btnInsertar = rootView.findViewById(R.id.btn_insertar_cliente);
-        btnModificar = rootView.findViewById(R.id.btn_modificar_cliente);
-        btnBorrar = rootView.findViewById(R.id.btn_borrar_cliente);
-        listViewClientes = rootView.findViewById(R.id.listView_clientes);
-        spinnerObjetivo = rootView.findViewById(R.id.spinner_objetivo);
-        btnAgregar = rootView.findViewById(R.id.btn_agregar_objetivo);
-        btnSacar = rootView.findViewById(R.id.btn_sacar_objetivo);
-        txtDescripcion = rootView.findViewById(R.id.txt_descripcion);
-        listViewObjetivosCliente = rootView.findViewById(R.id.listView_objetivo_cliente);
-    }
-
-    private void setupAdapters() {
-        configurarAdaptadorListaObjetivos(
-                android.R.layout.simple_list_item_1,
-                new ArrayList<>()
-        );
-    }
-
     public void setBtnInsertarListener(View.OnClickListener listener) {
         btnInsertar.setOnClickListener(listener);
     }
@@ -91,7 +69,6 @@ public class ClienteView {
         spinnerObjetivo.setOnItemSelectedListener(listener);
     }
 
-
     public void mostrarClientesEnListView(List<String> nombres) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, nombres);
         listViewClientes.setAdapter(adapter);
@@ -105,6 +82,27 @@ public class ClienteView {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerObjetivo.setAdapter(adapter);
+    }
+    private void initializeUI(View rootView) {
+        txtNombreCliente = rootView.findViewById(R.id.txt_nombre_cliente);
+        txtApellidoCliente = rootView.findViewById(R.id.txt_apellido_cliente);
+        txtCelular = rootView.findViewById(R.id.txt_celular_cliente);
+        btnInsertar = rootView.findViewById(R.id.btn_insertar_cliente);
+        btnModificar = rootView.findViewById(R.id.btn_modificar_cliente);
+        btnBorrar = rootView.findViewById(R.id.btn_borrar_cliente);
+        listViewClientes = rootView.findViewById(R.id.listView_clientes);
+        spinnerObjetivo = rootView.findViewById(R.id.spinner_objetivo);
+        btnAgregar = rootView.findViewById(R.id.btn_agregar_objetivo);
+        btnSacar = rootView.findViewById(R.id.btn_sacar_objetivo);
+        txtDescripcion = rootView.findViewById(R.id.txt_descripcion);
+        listViewObjetivosCliente = rootView.findViewById(R.id.listView_objetivo_cliente);
+    }
+
+    private void setupAdapters() {
+        configurarAdaptadorListaObjetivos(
+                android.R.layout.simple_list_item_1,
+                new ArrayList<>()
+        );
     }
 
     public String getNombreCliente() {

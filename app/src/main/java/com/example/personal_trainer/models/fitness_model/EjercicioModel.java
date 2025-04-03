@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.personal_trainer.models.registro_model.ObjetivoModel;
 import com.example.personal_trainer.utils.ConexionBD;
 
 import java.util.ArrayList;
@@ -159,8 +160,49 @@ public class EjercicioModel {
         } catch (Exception e) {
             System.err.println("Error al iniciar la base de datos: " + e.getMessage());
             if (database != null && database.isOpen()) {
-                database.close(); // Cerrar la base de datos si ocurrió un error
+                database.close();
             }
         }
+    }
+
+    public EjercicioModel buscarPorNombre(String nombre) {
+        EjercicioModel ejercicio = null;
+        Cursor cursor = null;
+
+        try {
+            String[] columns = {
+                    ConexionBD.COLUMN_ID,
+                    ConexionBD.COLUMN_NOMBRE,
+                    ConexionBD.COLUMN_URLIMAGEN
+            };
+
+            String selection = ConexionBD.COLUMN_NOMBRE + " = ?";
+            String[] selectionArgs = {nombre};
+
+            cursor = database.query(
+                    ConexionBD.TABLE_EJERCICIO,
+                    columns,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_ID));
+                String nom = cursor.getString(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_NOMBRE));
+                String url = cursor.getString(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_URLIMAGEN));
+
+                ejercicio = new EjercicioModel(id, nom, url);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return ejercicio;
     }
 }
