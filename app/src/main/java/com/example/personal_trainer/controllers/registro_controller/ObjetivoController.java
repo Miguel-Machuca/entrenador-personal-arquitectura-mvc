@@ -14,123 +14,123 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjetivoController extends AppCompatActivity {
-
-    private ObjetivoModel objetivoModel;
     private ObjetivoView objetivoView;
+    private ObjetivoModel objetivoModel;
+    private int idObjetivoSeleccionado = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_vobjetivo);
 
         objetivoModel = new ObjetivoModel();
         objetivoModel.initBD(this);
 
-        setContentView(R.layout.activity_vobjetivo);
         View rootView = findViewById(android.R.id.content);
         objetivoView = new ObjetivoView(this, rootView);
 
-        objetivoView.setBtnInsertarListener(this::insertarObjetivo);
-        objetivoView.setBtnModificarListener(this::modificarObjetivo);
-        objetivoView.setBtnBorrarListener(this::borrarObjetivo);
-        objetivoView.setListViewObjetivosListener(this::itemClickListView);
-        this.reiniciarActividad();
+        setupListeners();
+
+        cargarDatosIniciales();
     }
 
-    public void insertarObjetivo() {
-        try {
-            String nombre = objetivoView.getNombreObjetivo();
-            if (nombre.isEmpty()) {
-                objetivoView.mensaje("El nombre del objetivo no puede estar vacío.");
-                return;
-            }
-            boolean resultado = objetivoModel.insertar(nombre);
-            if (resultado) {
-                objetivoView.mensaje("Objetivo insertado correctamente.");
-                this.reiniciarActividad();
-            } else {
-                objetivoView.mensaje("Error al insertar el objetivo.");
-            }
-        } catch (Exception e) {
-            objetivoView.mensaje("Error: " + e.getMessage());
-        }
+    private void setupListeners() {
+        objetivoView.setBtnInsertarListener(v -> manejarInsercionObjetivo());
+        objetivoView.setBtnModificarListener(v -> manejarModificacionObjetivo());
+        objetivoView.setBtnBorrarListener(v -> manejarBorradoObjetivo());
+
+        objetivoView.setListViewObjetivosListener(this::manejarSeleccionObjetivo);
     }
 
-    public void modificarObjetivo() {
-        try {
-            int idObjetivo = objetivoView.getIdObjetivo();
-            String nombre = objetivoView.getNombreObjetivo();
-
-            if (nombre.isEmpty()) {
-                objetivoView.mensaje("El nombre del objetivo no puede estar vacío.");
-                return;
-            }
-
-            boolean resultado = objetivoModel.modificar(idObjetivo, nombre);
-
-            if (resultado) {
-                objetivoView.mensaje("Objetivo modificado correctamente.");
-                this.reiniciarActividad();
-            } else {
-                objetivoView.mensaje("Error al modificar el objetivo.");
-            }
-        } catch (Exception e) {
-            objetivoView.mensaje("Error: " + e.getMessage());
-        }
-    }
-
-    public void borrarObjetivo() {
-        try {
-            int idObjetivo = objetivoView.getIdObjetivo();
-
-            if (idObjetivo == -1) {
-                objetivoView.mensaje("No hay ningún objetivo seleccionado.");
-                return;
-            }
-
-            boolean resultado = objetivoModel.borrar(idObjetivo);
-
-            if (resultado) {
-                objetivoView.mensaje("Objetivo borrado correctamente.");
-                this.reiniciarActividad();
-            } else {
-                objetivoView.mensaje("Error al borrar el objetivo.");
-            }
-        } catch (Exception e) {
-            objetivoView.mensaje("Error: " + e.getMessage());
-        }
-    }
-
-    public void consultarObjetivos() {
+    private void cargarObjetivos() {
         List<String> nombres = new ArrayList<>();
-        List<Integer> idObjetivos = new ArrayList<>();
+        List<ObjetivoModel> objetivos = objetivoModel.consultar();
 
-        List<ObjetivoModel> listaObjetivos = objetivoModel.consultar();
-
-        for (ObjetivoModel objetivo : listaObjetivos) {
+        for (ObjetivoModel objetivo : objetivos) {
             nombres.add(objetivo.getNombre());
-            idObjetivos.add(objetivo.getIdObjetivo());
         }
+
         objetivoView.mostrarObjetivosEnListView(nombres);
     }
 
-    private void itemClickListView(AdapterView<?> adapterView, View view, int position, long id) {
+    private void manejarInsercionObjetivo() {
+        String nombre = objetivoView.getNombreObjetivo();
 
-        List<ObjetivoModel> listaObjetivos = objetivoModel.consultar();
-        int objetivoIdSeleccionado = listaObjetivos.get(position).getIdObjetivo();
+        if (validarDatosObjetivo(nombre)) {
+            boolean exito = objetivoModel.insertar(nombre);
 
-        ObjetivoModel objetivo = objetivoModel.buscar(objetivoIdSeleccionado);
-
-        if (objetivo != null) {
-            objetivoView.setNombreObjetivo(objetivo.getNombre());
-            objetivoView.setIdObjetivo(objetivo.getIdObjetivo());
-            objetivoView.btnModificarBtnBorrar();
-        } else {
-            objetivoView.mensaje("Objetivo no encontrado.");
+            if (exito) {
+                objetivoView.mostrarMensaje("Objetivo insertado correctamente");
+                resetearUI();
+                cargarObjetivos();
+            } else {
+                objetivoView.mostrarMensaje("Error al insertar objetivo");
+            }
         }
     }
 
-    private void reiniciarActividad() {
+    private void manejarModificacionObjetivo() {
+        if (idObjetivoSeleccionado == -1) {
+            objetivoView.mostrarMensaje("No hay objetivo seleccionado");
+            return;
+        }
+
+        String nombre = objetivoView.getNombreObjetivo();
+
+        if (validarDatosObjetivo(nombre)) {
+            boolean exito = objetivoModel.modificar(idObjetivoSeleccionado, nombre);
+
+            if (exito) {
+                objetivoView.mostrarMensaje("Objetivo modificado correctamente");
+                resetearUI();
+                cargarObjetivos();
+            } else {
+                objetivoView.mostrarMensaje("Error al modificar objetivo");
+            }
+        }
+    }
+
+    private void manejarBorradoObjetivo() {
+        if (idObjetivoSeleccionado == -1) {
+            objetivoView.mostrarMensaje("No hay objetivo seleccionado");
+            return;
+        }
+
+        boolean exito = objetivoModel.borrar(idObjetivoSeleccionado);
+
+        if (exito) {
+            objetivoView.mostrarMensaje("Objetivo borrado correctamente");
+            resetearUI();
+            cargarObjetivos();
+        } else {
+            objetivoView.mostrarMensaje("Error al borrar objetivo");
+        }
+    }
+
+    private void manejarSeleccionObjetivo(AdapterView<?> parent, View view, int position, long id) {
+        List<ObjetivoModel> objetivos = objetivoModel.consultar();
+        ObjetivoModel objetivo = objetivos.get(position);
+        idObjetivoSeleccionado = objetivo.getIdObjetivo();
+
+        objetivoView.setNombreObjetivo(objetivo.getNombre());
+        objetivoView.habilitarModoEdicion(true);
+    }
+
+    private boolean validarDatosObjetivo(String nombre) {
+        if (nombre.isEmpty()) {
+            objetivoView.mostrarMensaje("El nombre del objetivo no puede estar vacío");
+            return false;
+        }
+        return true;
+    }
+
+    private void resetearUI() {
         objetivoView.limpiarCampos();
-        this.consultarObjetivos();
+        idObjetivoSeleccionado = -1;
+    }
+
+    private void cargarDatosIniciales() {
+        cargarObjetivos();
+        resetearUI();
     }
 }

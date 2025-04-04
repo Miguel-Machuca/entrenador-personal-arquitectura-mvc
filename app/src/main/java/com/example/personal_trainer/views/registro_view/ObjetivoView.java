@@ -7,23 +7,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.example.personal_trainer.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ObjetivoView {
-
-    private int idObjetivo;
     private EditText txtNombreObjetivo;
     private ListView listViewObjetivos;
-    private Button btnInsertar, btnModificar, btnBorrar;
+    private Button btnInsertar;
+    private Button btnModificar;
+    private Button btnBorrar;
     private Context context;
-
 
     public ObjetivoView(Context context, View rootView) {
         this.context = context;
-        this.idObjetivo = -1;
+        initializeUI(rootView);
+    }
+
+    private void initializeUI(View rootView) {
         txtNombreObjetivo = rootView.findViewById(R.id.txt_nombre_objetivo);
         btnInsertar = rootView.findViewById(R.id.btn_insertar_objetivo);
         btnModificar = rootView.findViewById(R.id.btn_modificar_objetivo);
@@ -31,16 +33,20 @@ public class ObjetivoView {
         listViewObjetivos = rootView.findViewById(R.id.listView_objetivos);
     }
 
-    public void setBtnInsertarListener(Runnable listener) {
-        btnInsertar.setOnClickListener(v -> listener.run());
+    public void setBtnInsertarListener(View.OnClickListener listener) {
+        btnInsertar.setOnClickListener(listener);
     }
 
-    public void setBtnModificarListener(Runnable listener) {
-        btnModificar.setOnClickListener(v -> listener.run());
+    public void setBtnModificarListener(View.OnClickListener listener) {
+        btnModificar.setOnClickListener(listener);
     }
 
-    public void setBtnBorrarListener(Runnable listener) {
-        btnBorrar.setOnClickListener(v -> listener.run());
+    public void setBtnBorrarListener(View.OnClickListener listener) {
+        btnBorrar.setOnClickListener(listener);
+    }
+
+    public void setListViewObjetivosListener(ListView.OnItemClickListener listener) {
+        listViewObjetivos.setOnItemClickListener(listener);
     }
 
     public void mostrarObjetivosEnListView(List<String> nombres) {
@@ -48,17 +54,6 @@ public class ObjetivoView {
         listViewObjetivos.setAdapter(adapter);
     }
 
-    public void setListViewObjetivosListener(ListView.OnItemClickListener listener) {
-        listViewObjetivos.setOnItemClickListener(listener);
-    }
-
-    public int getIdObjetivo(){
-        return idObjetivo;
-    }
-
-    public void setIdObjetivo(int idObjetivo) {
-        this.idObjetivo = idObjetivo;
-    }
     public String getNombreObjetivo() {
         return txtNombreObjetivo.getText().toString().trim();
     }
@@ -67,20 +62,18 @@ public class ObjetivoView {
         txtNombreObjetivo.setText(nombre);
     }
 
-    public void limpiarCampos(){
+    public void habilitarModoEdicion(boolean habilitar) {
+        btnInsertar.setEnabled(!habilitar);
+        btnModificar.setEnabled(habilitar);
+        btnBorrar.setEnabled(habilitar);
+    }
+
+    public void limpiarCampos() {
         txtNombreObjetivo.setText("");
-        btnInsertar.setEnabled(true);
-        btnModificar.setEnabled(false);
-        btnBorrar.setEnabled(false);
+        habilitarModoEdicion(false);
     }
 
-    public void btnModificarBtnBorrar(){
-        btnInsertar.setEnabled(false);
-        btnModificar.setEnabled(true);
-        btnBorrar.setEnabled(true);
-    }
-
-    public void mensaje(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    public void mostrarMensaje(String mensaje) {
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
     }
 }
