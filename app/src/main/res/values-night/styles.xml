@@ -1,0 +1,15 @@
+<resources>
+    <!-- Estilos de texto para modo oscuro -->
+    <style name="TextAppearance.Personaltrainer.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/on_surface_dark</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!-- Estilo para botones en modo oscuro -->
+    <style name="Widget.Personaltrainer.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Personaltrainer.Label</item>
+        <item name="backgroundTint">@color/primary_dark</item>
+        <item name="android:textColor">@color/on_surface_dark</item>
+    </style>
+</resources>

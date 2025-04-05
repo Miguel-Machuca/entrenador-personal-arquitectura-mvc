@@ -1,109 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/gray_light">
 
     <!-- Título -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:paddingTop="10sp"
-        android:paddingBottom="10sp"
         android:text="@string/str_gestionar_cronograma"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        />
-
-    <EditText
-        android:id="@+id/txt_fecha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Fecha"
-        android:focusable="false"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:gravity="center"/>
-
-    <Spinner
-        android:id="@+id/spinner_cliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"/>
-
-    <Spinner
-        android:id="@+id/spinner_rutina"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Personaltrainer.Title"
         android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:paddingBottom="16dp"/>
 
+    <!-- Selector de fecha -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Fecha">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Spinners con estilo Material -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Cliente">
+
+        <Spinner
+            android:id="@+id/spinner_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:hint="Rutina">
+
+        <Spinner
+            android:id="@+id/spinner_rutina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botones principales -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="24dp">
+        android:layout_marginBottom="24dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_insertar_cronograma"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/btn_insertar"
-            android:gravity="center"/>
+            android:textColor="@color/primary"
+            android:layout_marginEnd="4dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_modificar_cronograma"
+            style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/btn_modificar"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"/>
+            android:backgroundTint="@color/primary"
+            android:layout_marginHorizontal="4dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_borrar_cronograma"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/btn_borrar"
-            android:gravity="center"/>
+            android:textColor="@color/red"
+            android:layout_marginStart="4dp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="24dp">
+    <!-- Botón adicional -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_enviar_rutina_cronograma"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Enviar Rutina"
+        android:backgroundTint="@color/primary"
+        android:layout_marginBottom="24dp"/>
 
-        <Button
-            android:id="@+id/btn_enviar_rutina_cronograma"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Enviar Rutina"
-            android:gravity="center"/>
-
-
-    </LinearLayout>
-
-
-    <!-- Lista de ítems -->
+    <!-- Lista de cronogramas -->
     <ListView
         android:id="@+id/lv_items_cronograma"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"/>
-
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"/>
 </LinearLayout>

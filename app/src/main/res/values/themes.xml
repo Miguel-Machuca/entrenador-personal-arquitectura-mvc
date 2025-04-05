@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema base -->
     <style name="Base.Theme.Personaltrainer" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/accent</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Personaltrainer.Title</item>
     </style>
 
     <style name="Theme.Personaltrainer" parent="Base.Theme.Personaltrainer" />

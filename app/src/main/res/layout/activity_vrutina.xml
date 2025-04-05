@@ -1,161 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/gray_light">
 
     <!-- Título -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:paddingTop="10sp"
-        android:paddingBottom="10sp"
         android:text="@string/str_gestionar_rutina"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.Personaltrainer.Title"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
 
-    <!-- Campo de texto para el nombre -->
-    <EditText
-        android:id="@+id/txt_nombre_rutina"
+    <!-- Campo de nombre -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre de la Rutina"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"/>
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="16dp">
 
-    <!-- Selector de ejercicio y campo de texto -->
-    <Spinner
-        android:id="@+id/spinner_ejercicio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"/>
-
-    <!-- Campos de texto para Cantidad de Serie, Repeticiones y Reposo -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_nombre_rutina"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:hint="Nombre de la rutina"
+            android:gravity="start" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txt_cantidad_serie"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Serie"
-                android:inputType="number"
-                android:gravity="center"/>
-
-            <EditText
-                android:id="@+id/txt_cantidad_repeticion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Repeticion"
-                android:inputType="number"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"/>
-
-            <EditText
-                android:id="@+id/txt_duracion_reposo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Reposo"
-                android:inputType="number"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="8dp">
-
-            <Button
-                android:id="@+id/btn_agregar_ejercicio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="Agregar"
-                android:gravity="center"/>
-
-            <Button
-                android:id="@+id/btn_sacar_ejercicio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="Sacar"
-                android:gravity="center"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Lista de ítems -->
-    <ListView
-        android:id="@+id/listView_ejercicio_rutina"
+    <!-- Spinner con estilo Material -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"/>
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="16dp">
 
-    <!-- Botones para guardar, actualizar y eliminar -->
+        <Spinner
+            android:id="@+id/spinner_ejercicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Seleccionar ejercicio"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campos de series/repeticiones -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="24dp">
+        android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btn_insertar_rutina"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_insertar"
-            android:gravity="center"/>
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_marginEnd="8dp">
 
-        <Button
-            android:id="@+id/btn_modificar_rutina"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_cantidad_serie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Series"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_modificar"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"/>
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_marginHorizontal="8dp">
 
-        <Button
-            android:id="@+id/btn_borrar_rutina"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_cantidad_repeticion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Repeticiones"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_borrar"
-            android:gravity="center"/>
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_marginStart="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_duracion_reposo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Reposo (seg)"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-    <!-- Lista de ítems -->
+    <!-- Botones de agregar/sacar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_agregar_ejercicio"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Agregar"
+            android:backgroundTint="@color/primary"
+            android:layout_marginEnd="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sacar_ejercicio"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Sacar"
+            android:textColor="@color/primary"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+    <!-- Lista de ejercicios -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ejercicios agregados:"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_marginBottom="8dp" />
+
+    <ListView
+        android:id="@+id/listView_ejercicio_rutina"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+
+    <!-- Botones principales -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_insertar_rutina"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/btn_insertar"
+            android:textColor="@color/primary"
+            android:layout_marginEnd="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_modificar_rutina"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/btn_modificar"
+            android:backgroundTint="@color/primary"
+            android:layout_marginHorizontal="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_borrar_rutina"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/btn_borrar"
+            android:textColor="@color/red"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+    <!-- Lista de rutinas -->
     <ListView
         android:id="@+id/listView_rutinas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="1dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="16dp"
-        android:gravity="center"/>
-
+        android:clipToPadding="false"
+        android:paddingBottom="72dp" />
 </LinearLayout>

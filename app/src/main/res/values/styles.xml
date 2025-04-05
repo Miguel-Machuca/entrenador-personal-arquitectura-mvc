@@ -1,0 +1,35 @@
+<resources>
+    <!-- Estilos tipográficos -->
+    <style name="TextAppearance.Personaltrainer.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="TextAppearance.Personaltrainer.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray_dark</item>
+    </style>
+
+    <style name="TextAppearance.Personaltrainer.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray_dark</item>
+    </style>
+
+    <style name="TextAppearance.Personaltrainer.Label" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray_medium</item>
+    </style>
+
+    <!-- Estilos de componentes -->
+    <style name="Widget.Personaltrainer.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Personaltrainer.Label</item>
+        <item name="backgroundTint">@color/primary</item>
+    </style>
+
+    <style name="Widget.Personaltrainer.ActionButton" parent="Widget.Material3.Button">
+        <item name="android:textSize">12sp</item>
+        <item name="android:minHeight">40dp</item> <!-- Altura reducida -->
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+</resources>

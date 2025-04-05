@@ -1,7 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Tema base oscuro -->
     <style name="Base.Theme.Personaltrainer" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Colores primarios oscuros -->
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryContainer">@color/primary_light_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/accent_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Colores de superficie -->
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/on_surface_dark</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
+
+        <!-- Colores de fondo -->
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+
+        <!-- Mantenemos la tipografía -->
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Personaltrainer.Title</item>
     </style>
 </resources>

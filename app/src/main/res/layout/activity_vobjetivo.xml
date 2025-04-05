@@ -1,71 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/gray_light">
 
-    <!-- Título -->
+    <!-- Título (centrado con jerarquía visual) -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:paddingTop="10sp"
-        android:paddingBottom="10sp"
         android:text="@string/str_gestionar_objetivo"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.Personaltrainer.Title"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
 
-    <EditText
-        android:id="@+id/txt_nombre_objetivo"
+    <!-- EditText (borde sutil y hint minimalista) -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Objetivo para realizar el ejercicio"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"/>
+        android:hint="Nombre del objetivo"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="24dp">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_nombre_objetivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Contenedor de botones (alineación optimizada) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="32dp"
+        android:divider="@drawable/divider_vertical"
+        android:showDividers="middle">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_insertar_objetivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:text="@string/btn_insertar"
-            android:gravity="center"/>
+            android:textColor="@color/primary"
+            android:layout_marginEnd="8dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_modificar_objetivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:text="@string/btn_modificar"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"/>
+            android:backgroundTint="@color/primary"
+            android:layout_marginHorizontal="8dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_borrar_objetivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:text="@string/btn_borrar"
-            android:gravity="center"/>
+            android:textColor="@color/red"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Lista de ítems -->
+    <!-- ListView (con divisor minimalista) -->
     <ListView
         android:id="@+id/listView_objetivos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:divider="@color/gray_medium"
         android:dividerHeight="1dp"
-        android:gravity="center"/>
-
+        android:scrollbars="vertical" />
 </LinearLayout>

@@ -1,157 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/gray_light">
 
+    <!-- Título -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:paddingTop="10sp"
-        android:paddingBottom="10sp"
         android:text="@string/str_gestionar_cliente"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.Personaltrainer.Title"
+        android:gravity="center"
+        android:paddingBottom="16dp"/>
 
-    <EditText
-        android:id="@+id/txt_nombre_cliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre"
-        android:layout_marginBottom="16dp"
-        android:inputType="text"
-        android:gravity="center"/>
-
-    <EditText
-        android:id="@+id/txt_apellido_cliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Apellido"
-        android:layout_marginBottom="16dp"
-        android:inputType="text"
-        android:gravity="center"/>
-
-    <EditText
-        android:id="@+id/txt_celular_cliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Celular"
-        android:layout_marginBottom="16dp"
-        android:gravity="center" />
-
-    <Spinner
-        android:id="@+id/spinner_objetivo"
+    <!-- Campos de texto con estilo Material -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:gravity="center"/>
+        android:hint="Nombre">
 
-    <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_nombre_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_marginBottom="16dp"
+        android:hint="Apellido">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_apellido_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Celular">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txt_celular_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Spinner con estilo Material -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Objetivo">
+
+        <Spinner
+            android:id="@+id/spinner_objetivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Descripción -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Descripción (opcional)">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_descripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descripcion (opcional)"
-            android:inputType="text"
-            android:gravity="center"/>
+            android:inputType="textMultiLine"
+            android:lines="2"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-
-
+    <!-- Botones de acción -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginBottom="24dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_agregar_objetivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:text="Agregar"
-            android:gravity="center"/>
+            android:backgroundTint="@color/primary"
+            android:layout_marginEnd="4dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sacar_objetivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:text="Sacar"
-            android:gravity="center"/>
-
+            android:textColor="@color/primary"
+            android:layout_marginStart="4dp"/>
     </LinearLayout>
+
+    <!-- Lista de objetivos -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Objetivos asignados:"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_marginBottom="8dp"/>
 
     <ListView
         android:id="@+id/listView_objetivo_cliente"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_height="70dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"/>
 
+    <!-- Botones principales -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginTop="24dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_insertar_cliente"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/btn_insertar"
-            android:gravity="center"/>
+            android:textColor="@color/primary"
+            android:layout_marginEnd="4dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_modificar_cliente"
+            style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/btn_modificar"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"/>
+            android:backgroundTint="@color/primary"
+            android:layout_marginHorizontal="4dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_borrar_cliente"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="@string/btn_borrar"
-            android:gravity="center"/>
+            android:textColor="@color/red"
+            android:layout_marginStart="4dp"/>
     </LinearLayout>
 
-    <!-- Lista de ítems -->
-
-    <LinearLayout
+    <!-- Lista de clientes -->
+    <ListView
+        android:id="@+id/listView_clientes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="24dp">
-
-        <ListView
-            android:id="@+id/listView_clientes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="1dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"/>
 </LinearLayout>
