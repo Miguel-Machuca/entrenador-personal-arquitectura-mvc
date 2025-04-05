@@ -103,7 +103,7 @@ app/
 
 ![Diagrama del Módulo Control](arqcontrol.png)
 
-### Diseño de Procedimental 🗃️
+### Diseño Procedimental 🗃️
 
 ![Diagrama procedimental](procedimental.png)
 
