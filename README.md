@@ -90,6 +90,24 @@ app/
 │   │   └── res/                  # Recursos (layouts, drawables, etc.)
 │   └── test/                     # Pruebas unitarias
 ```
+## Diseño️
+### Diseño de Base de Datos 🗃️
+
+![Diagrama de Base de Datos](bd.png)  
+
+### Diseño de Arquitectura 🗃️
+
+![Diagrama del Módulo Registro](arqregistro.png)
+
+![Diagrama del Módulo Fitness](arqfitness.png)
+
+![Diagrama del Módulo Control](arqcontrol.png)
+
+### Diseño de Procedimental 🗃️
+
+![Diagrama procedimental](procedimental.png)
+
+
 
 ## Autor ✍️
 **Miguel Angel Machuca Yavita**  
