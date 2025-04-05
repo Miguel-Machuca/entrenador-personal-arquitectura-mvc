@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.personal_trainer.models.registro_model.ClienteModel;
 import com.example.personal_trainer.utils.ConexionBD;
 import com.example.personal_trainer.utils.Quadruple;
+import com.example.personal_trainer.utils.Quintuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +16,20 @@ public class RutinaModel {
     private int idRutina;
     private String nombre;
     private List<DetalleRutinaModel> detalleRutina;
+    private List<Quintuple<String, String, Integer, Integer, Integer>> listaEjerciciosRutina;
     private SQLiteDatabase database;
 
     public RutinaModel() {
         this(-1, "");
         this.detalleRutina = new ArrayList<>();
+        this.listaEjerciciosRutina = new ArrayList<>();
     }
 
     public RutinaModel(int idRutina, String nombre) {
         this.idRutina = idRutina;
         this.nombre = nombre;
         this.detalleRutina = new ArrayList<>();
+        this.listaEjerciciosRutina = new ArrayList<>();
     }
 
     public boolean insertar(String nombre, List<Quadruple<Integer, Integer, Integer, Integer>> ejercicios) {
@@ -104,12 +107,11 @@ public class RutinaModel {
 
     public boolean borrar(int idRutina) {
         return executeTransaction(() -> {
-            // Primero borrar los detalles (ejercicios) de la rutina
+
             DetalleRutinaModel detalleModel = new DetalleRutinaModel();
             detalleModel.setDatabase(database);
             detalleModel.borrarTodosDeRutina(idRutina);
 
-            // Luego borrar la rutina principal
             database.delete(ConexionBD.TABLE_RUTINA,
                     ConexionBD.COLUMN_ID + " = ?",
                     new String[]{String.valueOf(idRutina)});
@@ -131,7 +133,6 @@ public class RutinaModel {
                 String nombre = cursor.getString(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_NOMBRE));
                 rutina = new RutinaModel(id, nombre);
 
-                // Cargar los ejercicios de la rutina
                 DetalleRutinaModel detalleModel = new DetalleRutinaModel();
                 detalleModel.setDatabase(database);
                 rutina.setDetalleRutina(detalleModel.obtenerEjerciciosDeRutina(idRutina));
@@ -159,7 +160,6 @@ public class RutinaModel {
                 String nombre = cursor.getString(cursor.getColumnIndexOrThrow(ConexionBD.COLUMN_NOMBRE));
                 rutina = new RutinaModel(id, nombre);
 
-                // Cargar los ejercicios de la rutina
                 DetalleRutinaModel detalleModel = new DetalleRutinaModel();
                 detalleModel.setDatabase(database);
                 rutina.setDetalleRutina(detalleModel.obtenerEjerciciosDeRutina(id));
@@ -184,13 +184,12 @@ public class RutinaModel {
 
                     RutinaModel rutina = new RutinaModel(idR, nom);
 
-                    // Cargar los ejercicios de cada rutina
                     DetalleRutinaModel detalleModel = new DetalleRutinaModel();
                     detalleModel.setDatabase(database);
                     rutina.setDetalleRutina(detalleModel.obtenerEjerciciosDeRutina(idR));
 
                     lista.add(rutina);
-                } while (cursor.moveToNext());  // Corregido: moveToNext() en lugar de moveToFirst()
+                } while (cursor.moveToNext());
             }
         } finally {
             if (cursor != null) {
@@ -205,6 +204,30 @@ public class RutinaModel {
             detalleRutina = new ArrayList<>();
         }
         detalleRutina.add(new DetalleRutinaModel(idRutina, idEjercicio, series, repeticiones, descanso));
+    }
+
+    public void setEjerciciosDeRutina(String nombreEjercicio, String urlImagen,
+                                      int cantidadSerie, int cantidadRepeticion,
+                                      int duracionReposo) {
+        Quintuple<String, String, Integer, Integer, Integer> ejercicio = Quintuple.of(
+                nombreEjercicio,
+                urlImagen,
+                cantidadSerie,
+                cantidadRepeticion,
+                duracionReposo
+        );
+        this.listaEjerciciosRutina.add(ejercicio);
+    }
+
+    public List<Quintuple<String, String, Integer, Integer, Integer>> getEjerciciosDeRutina() {
+        return this.listaEjerciciosRutina;
+    }
+
+    public Quintuple<String, String, Integer, Integer, Integer> getEjercicioDeRutina(int posicion) {
+        if (posicion >= 0 && posicion < listaEjerciciosRutina.size()) {
+            return listaEjerciciosRutina.get(posicion);
+        }
+        return null;
     }
 
     public void limpiarEjercicios() {

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.personal_trainer.R;
 
 import java.util.List;
@@ -39,7 +40,6 @@ public class EjercicioView {
         ivImagenEjercicio = rootView.findViewById(R.id.iv_imagen_ejercicio);
     }
 
-    // Métodos para configurar listeners
     public void setBtnInsertarListener(View.OnClickListener listener) {
         btnInsertar.setOnClickListener(listener);
     }
@@ -60,45 +60,47 @@ public class EjercicioView {
         listViewEjercicios.setOnItemClickListener(listener);
     }
 
-    // Métodos para manipulación de datos en la UI
     public void mostrarEjerciciosEnListView(List<String> nombres) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, nombres);
         listViewEjercicios.setAdapter(adapter);
     }
 
-    // Getters para obtener datos de la UI
     public String getNombreEjercicio() {
         return txtNombreEjercicio.getText().toString().trim();
     }
 
-    // Setters para establecer datos en la UI
     public void setNombreEjercicio(String nombre) {
         txtNombreEjercicio.setText(nombre);
     }
 
     public void setImagenEjercicio(Uri imagenUri) {
-        if (imagenUri != null) {
-            ivImagenEjercicio.setImageURI(imagenUri);
-        } else {
+        try {
+            if (imagenUri != null) {
+                Glide.with(context)
+                        .load(imagenUri)
+                        .placeholder(R.drawable.sin_imagen)
+                        .error(R.drawable.sin_imagen)
+                        .into(ivImagenEjercicio);
+            } else {
+                ivImagenEjercicio.setImageResource(R.drawable.sin_imagen);
+            }
+        } catch (Exception e) {
             ivImagenEjercicio.setImageResource(R.drawable.sin_imagen);
         }
     }
 
-    // Métodos para control de estado de la UI
     public void habilitarModoEdicion(boolean habilitar) {
         btnInsertar.setEnabled(!habilitar);
         btnModificar.setEnabled(habilitar);
         btnBorrar.setEnabled(habilitar);
     }
 
-    // Métodos para limpieza de la UI
     public void limpiarCampos() {
         txtNombreEjercicio.setText("");
         setImagenEjercicio(null);
         habilitarModoEdicion(false);
     }
 
-    // Métodos para feedback al usuario
     public void mostrarMensaje(String mensaje) {
         Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
     }

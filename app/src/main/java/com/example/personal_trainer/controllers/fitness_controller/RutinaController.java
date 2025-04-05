@@ -61,6 +61,8 @@ public class RutinaController extends AppCompatActivity {
             List<Quadruple<Integer, Integer, Integer, Integer>> ejercicios = obtenerEjerciciosDesdeVista();
             boolean exito = rutinaModel.insertar(nombre, ejercicios);
 
+            rutinaModel.setEjerciciosDeRutina(ejercicioModel.getNombre(), ejercicioModel.getUrlImagen(), rutinaView.getCantidadSerie(), rutinaView.getCantidadRepeticion(), rutinaView.getDuracionReposo());
+
             if (exito) {
                 rutinaView.mostrarMensaje("Rutina insertado correctamente");
                 cargarDatosIniciales();
@@ -216,7 +218,6 @@ public class RutinaController extends AppCompatActivity {
             rutinaView.activarBotonSacar(true);
         }
     }
-
 
     private void cargarDatosIniciales() {
         cargarRutinas();

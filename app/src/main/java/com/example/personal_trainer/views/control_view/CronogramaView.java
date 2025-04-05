@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.personal_trainer.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CronogramaView {
@@ -23,15 +22,12 @@ public class CronogramaView {
     private Button btnModificar;
     private Button btnBorrar;
     private Button btnEnviarRutina;
-    private Button btnEnviarEjemplos;
     private ListView listViewCronogramas;
-    private ArrayAdapter<String> cronogramasAdapter;
     private Context context;
 
     public CronogramaView(Context context, View rootView) {
         this.context = context;
         initializeUI(rootView);
-        setupAdapters();
     }
 
     private void initializeUI(View rootView) {
@@ -42,20 +38,9 @@ public class CronogramaView {
         btnModificar = rootView.findViewById(R.id.btn_modificar_cronograma);
         btnBorrar = rootView.findViewById(R.id.btn_borrar_cronograma);
         btnEnviarRutina = rootView.findViewById(R.id.btn_enviar_rutina_cronograma);
-        btnEnviarEjemplos = rootView.findViewById(R.id.btn_enviar_ejercicios_cronograma);
         listViewCronogramas = rootView.findViewById(R.id.lv_items_cronograma);
     }
 
-    private void setupAdapters() {
-        cronogramasAdapter = new ArrayAdapter<>(
-                context,
-                android.R.layout.simple_list_item_1,
-                new ArrayList<>()
-        );
-        listViewCronogramas.setAdapter(cronogramasAdapter);
-    }
-
-    // Métodos para configurar listeners
     public void setBtnInsertarListener(View.OnClickListener listener) {
         btnInsertar.setOnClickListener(listener);
     }
@@ -72,10 +57,6 @@ public class CronogramaView {
         btnEnviarRutina.setOnClickListener(listener);
     }
 
-    public void setBtnEnviarEjemplosListener(View.OnClickListener listener) {
-        btnEnviarEjemplos.setOnClickListener(listener);
-    }
-
     public void setListViewCronogramasListener(ListView.OnItemClickListener listener) {
         listViewCronogramas.setOnItemClickListener(listener);
     }
@@ -88,36 +69,19 @@ public class CronogramaView {
         spinnerRutina.setOnItemSelectedListener(listener);
     }
 
-    // Métodos para manejar datos
-    public String getFecha() {
-        return txtFecha.getText().toString().trim();
+    public void setFechaPickerListener(View.OnClickListener listener) {
+        txtFecha.setOnClickListener(listener);
     }
 
-    public void setFecha(String fecha) {
-        txtFecha.setText(fecha);
+    public void mostrarCronogramasEnListView(List<String> cronogramas) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                context,
+                android.R.layout.simple_list_item_1,
+                cronogramas
+        );
+        listViewCronogramas.setAdapter(adapter);
     }
 
-    public int getPosicionClienteSeleccionado() {
-        return spinnerCliente.getSelectedItemPosition();
-    }
-
-    public void setPosicionClienteSeleccionado(int posicion) {
-        if(posicion >= 0 && posicion < spinnerCliente.getCount()) {
-            spinnerCliente.setSelection(posicion);
-        }
-    }
-
-    public int getPosicionRutinaSeleccionado() {
-        return spinnerRutina.getSelectedItemPosition();
-    }
-
-    public void setPosicionRutinaSeleccionado(int posicion) {
-        if(posicion >= 0 && posicion < spinnerRutina.getCount()) {
-            spinnerRutina.setSelection(posicion);
-        }
-    }
-
-    // Métodos para configurar spinners
     public void configurarSpinnerClientes(List<String> nombresClientes) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 context,
@@ -138,18 +102,42 @@ public class CronogramaView {
         spinnerRutina.setAdapter(adapter);
     }
 
-    // Métodos para manejar la lista de cronogramas
-    public void mostrarCronogramasEnListView(List<String> cronogramas) {
-        cronogramasAdapter.clear();
-        cronogramasAdapter.addAll(cronogramas);
-        cronogramasAdapter.notifyDataSetChanged();
+    public String getFecha() {
+        return txtFecha.getText().toString().trim();
     }
 
-    // Métodos para control de UI
+    public int getPosicionClienteSeleccionado() {
+        return spinnerCliente.getSelectedItemPosition();
+    }
+
+    public int getPosicionRutinaSeleccionado() {
+        return spinnerRutina.getSelectedItemPosition();
+    }
+
+    public void setFecha(String fecha) {
+        txtFecha.setText(fecha);
+    }
+
+    public void setPosicionClienteSeleccionado(int posicion) {
+        if(posicion >= 0 && posicion < spinnerCliente.getCount()) {
+            spinnerCliente.setSelection(posicion);
+        }
+    }
+
+    public void setPosicionRutinaSeleccionado(int posicion) {
+        if(posicion >= 0 && posicion < spinnerRutina.getCount()) {
+            spinnerRutina.setSelection(posicion);
+        }
+    }
+
     public void habilitarModoEdicion(boolean habilitar) {
         btnInsertar.setEnabled(!habilitar);
         btnModificar.setEnabled(habilitar);
         btnBorrar.setEnabled(habilitar);
+    }
+
+    public void activarBotonesEnvio(boolean activar) {
+        btnEnviarRutina.setEnabled(activar);
     }
 
     public void limpiarCampos() {
@@ -157,14 +145,10 @@ public class CronogramaView {
         setPosicionClienteSeleccionado(0);
         setPosicionRutinaSeleccionado(0);
         habilitarModoEdicion(false);
+        activarBotonesEnvio(false);
     }
 
     public void mostrarMensaje(String mensaje) {
         Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
-    }
-
-    public void activarBotonesEnvio(boolean activar) {
-        btnEnviarRutina.setEnabled(activar);
-        btnEnviarEjemplos.setEnabled(activar);
     }
 }

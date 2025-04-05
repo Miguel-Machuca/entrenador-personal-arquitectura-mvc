@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i = new Intent(context, RutinaController.class);
 
         } else if (id == R.id.btn_gestionar_cronograma) {
-            //i = new Intent(context, CronogramaController.class);
-            return;
+            i = new Intent(context, CronogramaController.class);
+
         } else {
             return;
         }

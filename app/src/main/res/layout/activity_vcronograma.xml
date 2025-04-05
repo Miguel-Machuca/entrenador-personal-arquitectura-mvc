@@ -93,13 +93,6 @@
             android:text="Enviar Rutina"
             android:gravity="center"/>
 
-        <Button
-            android:id="@+id/btn_enviar_ejercicios_cronograma"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Enviar Ejemplos"
-            android:gravity="center"/>
 
     </LinearLayout>
 

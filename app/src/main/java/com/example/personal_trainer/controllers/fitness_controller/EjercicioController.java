@@ -49,6 +49,13 @@ public class EjercicioController extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         imagenSeleccionadaUri = result.getData().getData();
+                        // Tomar persistencia del URI
+                        if (imagenSeleccionadaUri != null) {
+                            final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                            getContentResolver().takePersistableUriPermission(imagenSeleccionadaUri, takeFlags);
+                        }
                         ejercicioView.setImagenEjercicio(imagenSeleccionadaUri);
                     }
                 }
@@ -149,7 +156,9 @@ public class EjercicioController extends AppCompatActivity {
     }
 
     private void abrirSelectorImagenes() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
         seleccionarImagenLauncher.launch(intent);
     }
 

@@ -1,7 +1,17 @@
 package com.example.personal_trainer.models.control_model;
 
-import android.content.ContentValues;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.widget.Toast;
+import androidx.core.content.FileProvider;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -110,7 +120,6 @@ public class CronogramaModel {
         return cronograma;
     }
 
-    // Métodos adicionales específicos para CronogramaModel
     public List<CronogramaModel> buscarPorCliente(int idCliente) {
         List<CronogramaModel> lista = new ArrayList<>();
         Cursor cursor = null;
@@ -161,6 +170,29 @@ public class CronogramaModel {
             }
         }
         return lista;
+    }
+
+    public boolean existeCronograma(int idCliente, String fecha, int idExcluir) {
+        SQLiteDatabase db = this.database;
+        Cursor cursor = null;
+        try {
+            String query = "SELECT COUNT(*) FROM " + ConexionBD.TABLE_CRONOGRAMA +
+                    " WHERE " + ConexionBD.FK_ID_CLIENTE + " = ?" +
+                    " AND " + ConexionBD.COLUMN_FECHA + " = ?" +
+                    " AND " + ConexionBD.COLUMN_ID + " != ?";
+
+            cursor = db.rawQuery(query,
+                    new String[]{String.valueOf(idCliente), fecha, String.valueOf(idExcluir)});
+
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0) > 0;
+            }
+            return false;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public int getIdCronograma() {
@@ -230,4 +262,53 @@ public class CronogramaModel {
             }
         }
     }
+
+    public void shareImageWithText(Context context, Bitmap bitmap, String text) {
+        cleanOldCacheFiles(context);
+        try {
+            File cachePath = new File(context.getCacheDir(), "images");
+            cachePath.mkdirs();
+            File file = new File(cachePath, "shared_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+            Uri contentUri = FileProvider.getUriForFile(
+                    context,
+                    context.getPackageName() + ".fileprovider",
+                    file
+            );
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            if (shareIntent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(shareIntent);
+            } else {
+                Toast.makeText(context, "WhatsApp no está instalado", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Error al compartir: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cleanOldCacheFiles(Context context) {
+        File cacheDir = new File(context.getCacheDir(), "images");
+        if (cacheDir.exists() && cacheDir.isDirectory()) {
+            File[] files = cacheDir.listFiles();
+            if (files != null) {
+                long now = System.currentTimeMillis();
+                for (File file : files) {
+                    if (now - file.lastModified() > 24 * 60 * 60 * 1000) {
+                        file.delete();
+                    }
+                }
+            }
+        }
+    }
+
 }
